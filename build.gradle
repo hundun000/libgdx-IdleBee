@@ -1,0 +1,65 @@
+buildscript {
+    ext {
+        //gwtPluginVersion = '1.1.16'
+    }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+        //maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        google()
+    }
+    dependencies {
+        //classpath "org.wisepersist:gwt-gradle-plugin:$gwtPluginVersion"
+        //classpath 'org.gretty:gretty:3.0.5'
+    }
+}
+
+allprojects {
+    apply plugin: "eclipse"
+    apply plugin: "java"
+    apply plugin: 'java-library'
+    
+    java {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    
+    
+    ext {
+        appName = "libgdx-IdleBee"
+
+        idleframeVersion = '4d393383c4'
+    }
+
+    repositories {
+        //mavenLocal()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+        //google()
+        //maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        //maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+    }
+
+}
+
+project(":desktop") {
+
+    dependencies {
+        implementation project(":core")
+
+        implementation "com.github.hundun000.hundun-idle-all:desktop-idleshare:$idleframeVersion"
+    }
+}
+
+project(":core") {
+
+    dependencies {
+        implementation "com.github.hundun000.hundun-idle-all:idleframe:$idleframeVersion"
+
+        compileOnly 'org.projectlombok:lombok:1.18.4'
+        annotationProcessor 'org.projectlombok:lombok:1.18.4'
+    }
+}
+
+eclipse.project.name = appName
